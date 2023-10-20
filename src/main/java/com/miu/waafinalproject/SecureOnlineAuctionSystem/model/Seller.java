@@ -1,6 +1,5 @@
 package com.miu.waafinalproject.SecureOnlineAuctionSystem.model;
 
-import jakarta.annotation.sql.DataSourceDefinitions;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +16,7 @@ public class Seller {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int sellerID;
     @OneToOne
-    private User user;
+    private Users users;
     @OneToMany(mappedBy = "seller")
     private List<Product> products;
     // Other seller-specific properties and methods
