@@ -1,5 +1,6 @@
 package com.miu.waafinalproject.SecureOnlineAuctionSystem.model;
 
+import com.miu.waafinalproject.SecureOnlineAuctionSystem.enums.RolesEnum;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +20,7 @@ public class User {
     private String email;
     private String password; // Encrypted password
     private String licenseNumber;
+    private RolesEnum role;
     // Other user-related properties and methods
 }
 

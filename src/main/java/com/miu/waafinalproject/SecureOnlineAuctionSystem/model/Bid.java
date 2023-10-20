@@ -16,7 +16,7 @@ public class Bid {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bidID;
     private double bidAmount;
-    private Date bidDate;
+    private Date bidDueDate;
     @ManyToOne
     private Customer customer;
     @ManyToOne
