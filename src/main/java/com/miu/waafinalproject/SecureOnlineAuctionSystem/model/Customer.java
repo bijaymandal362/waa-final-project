@@ -16,7 +16,7 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int customerID;
     @OneToOne
-    private User user;
+    private Users users;
     @OneToMany(mappedBy = "customer")
     private List<Bid> bids;
     @OneToMany(mappedBy = "customer")
