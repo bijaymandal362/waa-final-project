@@ -14,9 +14,9 @@ import java.util.Date;
 public class Bid {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bidID;
+    private Long bidID;
     private double bidAmount;
-    private Date bidDueDate;
+    private Date bidDate;
     @ManyToOne
     private Customer customer;
     @ManyToOne

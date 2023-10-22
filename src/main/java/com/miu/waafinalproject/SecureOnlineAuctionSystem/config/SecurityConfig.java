@@ -33,6 +33,8 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().requestMatchers(new AntPathRequestMatcher("/h2/**"))
+                .requestMatchers(new AntPathRequestMatcher("/users/**"))
+                .requestMatchers(new AntPathRequestMatcher("/auth/login/**"))
                 .requestMatchers(new AntPathRequestMatcher("/**"));
     }
 

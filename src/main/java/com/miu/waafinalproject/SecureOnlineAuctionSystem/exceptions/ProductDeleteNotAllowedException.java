@@ -1,4 +1,4 @@
-package com.miu.waafinalproject.SecureOnlineAuctionSystem.exception;
+package com.miu.waafinalproject.SecureOnlineAuctionSystem.exceptions;
 
 public class ProductDeleteNotAllowedException extends RuntimeException{
     public ProductDeleteNotAllowedException(String message) {

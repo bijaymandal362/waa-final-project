@@ -29,4 +29,7 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Bid> bids;
     // Other product-related properties and methods
+
+    @OneToMany(mappedBy = "product")
+    private List<Deposit> deposits;
 }

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -12,9 +14,12 @@ import lombok.NoArgsConstructor;
 public class Deposit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int depositID;
+    private Long depositID;
     private double depositAmount;
     @ManyToOne
     private Customer customer;
     // Other deposit-related properties and methods
+
+    @ManyToOne
+    private Product product;
 }

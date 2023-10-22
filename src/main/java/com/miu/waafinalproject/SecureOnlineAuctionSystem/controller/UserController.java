@@ -20,8 +20,8 @@ public class UserController {
 
     //save Users
     @PostMapping
-    public ResponseEntity<Users> save(@RequestBody Users u){
-        Users users = userService.save(u);
+    public ResponseEntity<Users> RegistrationUser(@RequestBody Users u){
+        Users users = userService.Registration(u);
         return new ResponseEntity<>(users, HttpStatus.CREATED);
     }
 

@@ -1,10 +1,12 @@
 package com.miu.waafinalproject.SecureOnlineAuctionSystem.controller;
 
-import com.miu.waafinalproject.SecureOnlineAuctionSystem.exception.ProductNotFoundException;
+import com.miu.waafinalproject.SecureOnlineAuctionSystem.dto.ProductDto;
+import com.miu.waafinalproject.SecureOnlineAuctionSystem.exceptions.ProductNotFoundException;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.model.Product;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.repository.ProductRepo;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.repository.SellerRepo;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.services.Product.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,15 +15,16 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
-    @Autowired
-    private ProductRepo productRepository;
 
-    @Autowired
-    private SellerRepo sellerRepository;
+    private final ProductRepo productRepository;
 
-    private ProductService productService;
+
+    private final SellerRepo sellerRepository;
+
+    private  final ProductService productService;
 
     @GetMapping()
     public ResponseEntity<List<Product>> getAllProducts() {
@@ -34,7 +37,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
+    public Product createProduct(@RequestBody ProductDto product) {
         return productService.createProduct(product);
     }
 
