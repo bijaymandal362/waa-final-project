@@ -2,6 +2,7 @@ package com.miu.waafinalproject.SecureOnlineAuctionSystem.model;
 
 import jakarta.annotation.sql.DataSourceDefinitions;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int productID;
+    private Long productID;
     private String name;
     private String description;
     private double startingPrice;
