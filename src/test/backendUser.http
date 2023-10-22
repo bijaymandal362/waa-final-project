@@ -1,0 +1,45 @@
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "email": "customer@example.com",
+  "password": "password123",
+  "licenseNumber": "CL12345",
+  "roles": "CUSTOMER"
+}
+
+###
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "customer@example.com",
+  "password": "password123"
+}
+
+###
+GET http://localhost:8080/users
+Content-Type: application/json
+
+###
+GET http://localhost:8080/users/2
+Content-Type: application/json
+
+###
+DELETE http://localhost:8080/users/2
+Content-Type: application/json
+
+###
+PUT http://localhost:8080/users/2
+Content-Type: application/json
+
+{
+  "email": "user2@gmail.com",
+  "password": "pass",
+  "licenseNumber": "13456789",
+  "roles": [
+    {
+      "title": "ROLE_CUSTOMER"
+    }
+  ]
+}
