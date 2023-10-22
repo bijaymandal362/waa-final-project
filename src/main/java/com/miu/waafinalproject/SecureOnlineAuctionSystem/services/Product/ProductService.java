@@ -1,8 +1,9 @@
 package com.miu.waafinalproject.SecureOnlineAuctionSystem.services.Product;
 
-import com.miu.waafinalproject.SecureOnlineAuctionSystem.exception.ProductDeleteNotAllowedException;
-import com.miu.waafinalproject.SecureOnlineAuctionSystem.exception.ProductNotFoundException;
-import com.miu.waafinalproject.SecureOnlineAuctionSystem.exception.ProductUpdateNotAllowedException;
+import com.miu.waafinalproject.SecureOnlineAuctionSystem.dto.ProductDto;
+import com.miu.waafinalproject.SecureOnlineAuctionSystem.exceptions.ProductDeleteNotAllowedException;
+import com.miu.waafinalproject.SecureOnlineAuctionSystem.exceptions.ProductNotFoundException;
+import com.miu.waafinalproject.SecureOnlineAuctionSystem.exceptions.ProductUpdateNotAllowedException;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.model.Product;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.repository.ProductRepo;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,16 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product createProduct(Product product) {
-        return productRepo.save(product);
+    public Product createProduct(ProductDto product) {
+        Product newProduct = new Product();
+        newProduct.setName(product.getName());
+        newProduct.setDescription(product.getDescription());
+        newProduct.setStartingPrice(product.getStartingPrice());
+        newProduct.setDeposit(product.getDeposit());
+        newProduct.setBidDueDate(product.getBidDueDate());
+        newProduct.setBiddingPaymentDueDate(product.getBiddingPaymentDueDate());
+        newProduct.setReleased(product.isReleased());
+        return productRepo.save(newProduct);
     }
 
     @Override
@@ -55,6 +64,7 @@ public class ProductService implements IProductService {
         existingProduct.setDescription(updatedProduct.getDescription());
         existingProduct.setStartingPrice(updatedProduct.getStartingPrice());
         existingProduct.setDeposit(updatedProduct.getDeposit());
+        existingProduct.setReleased(updatedProduct.isReleased());
         existingProduct.setBidDueDate(updatedProduct.getBidDueDate());
         existingProduct.setBiddingPaymentDueDate(updatedProduct.getBiddingPaymentDueDate());
 

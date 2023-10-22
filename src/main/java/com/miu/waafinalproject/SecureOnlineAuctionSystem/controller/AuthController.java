@@ -1,8 +1,11 @@
 package com.miu.waafinalproject.SecureOnlineAuctionSystem.controller;
 
+import com.miu.waafinalproject.SecureOnlineAuctionSystem.enums.RolesEnum;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.model.Users;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.model.auth.AuthRequest;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.model.auth.AuthResponse;
+import com.miu.waafinalproject.SecureOnlineAuctionSystem.repository.CustomerRepo;
+import com.miu.waafinalproject.SecureOnlineAuctionSystem.repository.SellerRepo;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
+    private final CustomerRepo customerRepo;
+    private final SellerRepo sellerRepo;
     private final JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/login")
@@ -39,9 +44,20 @@ public class AuthController {
 
             Users users = (Users) authentication.getPrincipal();
             String token = jwtTokenUtil.generateToken(users);
+            String role = users.getRoles().toString();
+            Long roleCustomerSellerId = null;
 
+            if (RolesEnum.CUSTOMER.equals(users.getRoles())) {
+                // Set the customer ID if the role is "CUSTOMER"
+                roleCustomerSellerId = customerRepo.findByUser(users).getCustomerID();
+            }else{
+                if(RolesEnum.SELLER.equals(users.getRoles())){
+                    // Set the seller ID if the role is "SELLER"
+                    roleCustomerSellerId = sellerRepo.findByUser(users).getSellerID();
+                }
+            }
             //return token
-            return ResponseEntity.ok(new AuthResponse(users.getEmail(), token));
+            return ResponseEntity.ok(new AuthResponse(users.getEmail(), token,role, roleCustomerSellerId));
         } catch (BadCredentialsException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

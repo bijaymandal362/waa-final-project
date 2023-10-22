@@ -14,7 +14,7 @@ import java.util.List;
 public class Seller {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sellerID;
+    private Long sellerID;
     @OneToOne
     private Users users;
     @OneToMany(mappedBy = "seller")
