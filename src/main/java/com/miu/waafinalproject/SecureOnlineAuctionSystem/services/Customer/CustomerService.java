@@ -26,53 +26,10 @@ public class CustomerService implements  ICustomerService
         return null;
     }
 
-    @Override
-    public Customer createBid(CustomerBidDto customer) {
-        if(customer.getUsers().getRoles()== RolesEnum.CUSTOMER){
-            Customer customer1 = new Customer();
-            customer1.setUsers(customer.getUsers());
-
-            boolean isDepositable = addDeposit(customer.getDeposits().stream().toList());
-            if(!isDepositable){
-                throw new DepositeNotNullException("Deposit amount cannot be null");
-            }else{
-                customer1.setDeposits(customer.getDeposits());
-            }
-            customer1.setDeposits(customer.getDeposits());
-            customer1.setBids(customer.getBids());
-            customerRepo.save(customer1);
-            return customer1;
-
-        }else{
-            throw new CustomerCanOnlyBidExceptions("Only customer can bid");
-        }
-
-    }
 
 
 
-    private boolean addDeposit(List<Deposit> deposits) {
-        boolean allDepositsValid = true;
 
-        for (Deposit deposit : deposits) {
-            if (deposit.getProduct() == null) {
-                allDepositsValid = false;
-                // Handle the case where a deposit doesn't have a product
-            } else {
-                double startingPrice = deposit.getProduct().getStartingPrice();
-                double requiredDeposit = startingPrice * 1.10; // 10% greater than starting price
-
-                if (deposit.getDepositAmount() >= requiredDeposit) {
-                    deposits.add(deposit); // Add the deposit to the customer
-                } else {
-                    allDepositsValid = false;
-                    // Handle the case where a deposit is insufficient
-                }
-            }
-        }
-
-        return allDepositsValid;
-    }
 //    private Users getUsers()
 //    {
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -91,8 +48,6 @@ public class CustomerService implements  ICustomerService
 //        }
 //        return -1; // or some other error handling strategy
 //    }
-
-
 
 
     public boolean isEligibleToBid(BidAddUpdateDto bidAddUpdateDTO) {

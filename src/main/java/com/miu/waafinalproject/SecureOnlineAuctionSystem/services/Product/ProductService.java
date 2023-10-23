@@ -29,6 +29,7 @@ public class ProductService implements IProductService {
         newProduct.setDescription(product.getDescription());
         newProduct.setStartingPrice(product.getStartingPrice());
         newProduct.setDeposit(product.getDeposit());
+        newProduct.setSold(false);
         newProduct.setBidDueDate(product.getBidDueDate());
         newProduct.setBiddingPaymentDueDate(product.getBiddingPaymentDueDate());
         newProduct.setReleased(product.isReleased());
@@ -61,6 +62,7 @@ public class ProductService implements IProductService {
 
     private Product handleNotReleasedProductUpdate(Product existingProduct, Product updatedProduct) {
         existingProduct.setName(updatedProduct.getName());
+        existingProduct.setSold(false);
         existingProduct.setDescription(updatedProduct.getDescription());
         existingProduct.setStartingPrice(updatedProduct.getStartingPrice());
         existingProduct.setDeposit(updatedProduct.getDeposit());

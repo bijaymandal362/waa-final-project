@@ -17,4 +17,7 @@ public interface BidRepo extends JpaRepository<Bid, Long> {
 
     @Query("SELECT b FROM Bid b WHERE b.customer = :customer AND b.product = :product")
     Bid findBidByCustomerAndProduct(@Param("customer") Customer customer, @Param("product") Product product);
+
+    @Query("SELECT b FROM Bid b WHERE b.product = :product ORDER BY b.bidAmount DESC")
+    Bid findHighestBidForProduct(@Param("product") Product product);
 }
