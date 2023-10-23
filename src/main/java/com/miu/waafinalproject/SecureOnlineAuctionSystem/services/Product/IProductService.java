@@ -10,8 +10,8 @@ import java.util.Optional;
 public interface IProductService {
 
     List<Product> getAllProduct();
-    Product createProduct(ProductDto product);
-    Product updateProduct(Long id, Product product) throws ProductNotFoundException;
+    Product createProduct(ProductDto product) throws ProductNotFoundException;
+    Product updateProduct(Long id, ProductDto product) throws ProductNotFoundException;
     void deleteProduct(Long id) throws ProductNotFoundException;
     Optional<Product> getProductById(Long id) throws ProductNotFoundException;
 

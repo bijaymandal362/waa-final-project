@@ -1,5 +1,6 @@
 package com.miu.waafinalproject.SecureOnlineAuctionSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class Bid {
     private double bidAmount;
     private Date bidDate;
     @ManyToOne
+    @JsonIgnore
     private Customer customer;
     @ManyToOne
     private Product product;

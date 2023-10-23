@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SellerRepo extends JpaRepository<Seller, Long>{
-
+    Seller findBySellerID(Long sellerID);
     @Query("SELECT s FROM Seller s WHERE s.users = :user")
     Seller findByUser(@Param("user") Users user);
 }

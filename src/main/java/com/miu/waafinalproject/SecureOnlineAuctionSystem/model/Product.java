@@ -1,5 +1,6 @@
 package com.miu.waafinalproject.SecureOnlineAuctionSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.sql.DataSourceDefinitions;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -28,9 +29,11 @@ public class Product {
     @ManyToOne
     private Seller seller;
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<Bid> bids;
     // Other product-related properties and methods
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<Deposit> deposits;
 }

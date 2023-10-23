@@ -57,7 +57,7 @@ public class AuthController {
                 }
             }
             //return token
-            return ResponseEntity.ok(new AuthResponse(users.getEmail(), token,role, roleCustomerSellerId));
+            return ResponseEntity.ok(new AuthResponse(users.getEmail(), users.getUsername(), token,role, roleCustomerSellerId));
         } catch (BadCredentialsException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
