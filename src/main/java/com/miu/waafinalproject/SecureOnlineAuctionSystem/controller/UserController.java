@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("http://localhost:5174")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -19,10 +19,22 @@ public class UserController {
     private final IUserService userService;
 
     //save Users
+//    @PostMapping
+//    public ResponseEntity<Users> RegistrationUser(@RequestBody Users u){
+//            Users users = userService.Registration(u);
+//
+//            return new ResponseEntity<>(users, HttpStatus.CREATED);
+//    }
+
+
     @PostMapping
-    public ResponseEntity<Users> RegistrationUser(@RequestBody Users u){
-        Users users = userService.Registration(u);
-        return new ResponseEntity<>(users, HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse> RegistrationUser(@RequestBody Users u){
+        try {
+            Users users = userService.Registration(u);
+            return new ResponseEntity<ApiResponse>(new ApiResponse("User Created Successfully", true), HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<ApiResponse>(new ApiResponse(e.getMessage(), false), HttpStatus.NOT_FOUND);
+        }
     }
 
     //Get all Users

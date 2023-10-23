@@ -2,10 +2,10 @@ POST http://localhost:8080/users
 Content-Type: application/json
 
 {
-  "email": "customer@example.com",
+  "email": "customer3@example.com",
   "password": "password123",
   "licenseNumber": "CL12345",
-  "roles": "CUSTOMER"
+  "roles": "SELLER"
 }
 
 ###
@@ -39,7 +39,51 @@ Content-Type: application/json
   "licenseNumber": "13456789",
   "roles": [
     {
-      "title": "ROLE_CUSTOMER"
+      "title": "ROLE_SELLER"
     }
   ]
 }
+
+###
+POST http://localhost:8080/products
+Content-Type: application/json
+#
+#{
+#  "productID": 1,
+#  "name": "Sample Product",
+#  "description": "This is a sample product description.",
+#  "startingPrice": 100.00,
+#  "deposit": 10.00,
+#  "bidDueDate": "2023-11-30T18:00:00",
+#  "biddingPaymentDueDate": "2023-12-15T18:00:00",
+#  "released": true,
+#  "seller": {
+#    "id": 1,
+#    "name": "John Doe",
+#    "email": "johndoe@example.com"
+#  },
+#  "bids": [
+#    {
+#      "id": 1,
+#      "bidAmount": 120.00,
+#      "bidder": {
+#        "id": 2,
+#        "name": "Jane Smith",
+#        "email": "janesmith@example.com"
+#      }
+#    }
+#  ],
+#  "deposits": [
+#    {
+#      "id": 1,
+#      "depositAmount": 10.00,
+#      "depositDate": "2023-11-15T12:00:00"
+#    },
+
+
+
+
+
+
+
+
