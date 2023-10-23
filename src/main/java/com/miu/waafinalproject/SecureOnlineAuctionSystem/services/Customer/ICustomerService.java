@@ -7,5 +7,5 @@ import com.miu.waafinalproject.SecureOnlineAuctionSystem.model.Customer;
 public interface ICustomerService {
     boolean isEligibleToBid(BidAddUpdateDto bidAddUpdateDTO);
     Customer getCustomerById(int id);
-    Customer createBid(CustomerBidDto customer);
+
 }
