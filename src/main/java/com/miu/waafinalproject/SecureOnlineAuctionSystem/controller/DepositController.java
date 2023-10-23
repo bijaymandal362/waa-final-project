@@ -20,5 +20,10 @@ public class DepositController {
         DepositDto createdDeposit = depositService.createDeposite(deposit);
         return ResponseEntity.ok(createdDeposit);
     }
+
+    @GetMapping("/{customerid}")
+    public ResponseEntity<?> getCustomerDeposits(@PathVariable Long customerid) {
+        return ResponseEntity.ok(depositService.getCustomerDeposits(customerid));
+    }
 }
 

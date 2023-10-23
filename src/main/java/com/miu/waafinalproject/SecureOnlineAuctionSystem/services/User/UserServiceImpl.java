@@ -35,6 +35,7 @@ public class UserServiceImpl implements IUserService{
         users.setPassword(passwordEncoder.encode(users.getPassword()));
         System.out.println("Role Value: " + users.getRoles());
         users.setLicenseNumber(users.getLicenseNumber());
+        users.setUserName(users.getUsername());
         users.setRoles(users.getRoles());
         userRepository.save(users);
 // Determine the user's role

@@ -28,28 +28,6 @@ public class CustomerService implements  ICustomerService
 
 
 
-
-
-//    private Users getUsers()
-//    {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//        String username = userDetails.getUsername();
-//
-//        Users user = usersRepository.findByUsername(username);
-//
-//        return user;
-//    }
-//
-//    public int getUserIdByUsername(String username) {
-//        Users user = usersRepository.findByUsername(username);
-//        if (user != null) {
-//            return user.getUserID();
-//        }
-//        return -1; // or some other error handling strategy
-//    }
-
-
     public boolean isEligibleToBid(BidAddUpdateDto bidAddUpdateDTO) {
         if (bidAddUpdateDTO == null) {
             return false;
@@ -60,9 +38,19 @@ public class CustomerService implements  ICustomerService
 
         if (customer == null || product == null) {
             return false;
+        }else{
+            if(product.getDeposit() == 0){
+                return hasRequiredDeposit(customer, product, bidAddUpdateDTO.getNewBidAmount());
+            }else{
+                if(product.getDeposit() > 0 && bidAddUpdateDTO.getNewBidAmount() >= product.getDeposit()){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
         }
 
-        return hasRequiredDeposit(customer, product, bidAddUpdateDTO.getNewBidAmount());
+
     }
 
     private boolean hasRequiredDeposit(Customer customer, Product product, double bidAmount) {

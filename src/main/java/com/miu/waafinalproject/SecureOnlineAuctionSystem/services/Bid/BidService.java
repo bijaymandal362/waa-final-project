@@ -1,7 +1,6 @@
 package com.miu.waafinalproject.SecureOnlineAuctionSystem.services.Bid;
 
-import com.miu.waafinalproject.SecureOnlineAuctionSystem.dto.BidAddUpdateDto;
-import com.miu.waafinalproject.SecureOnlineAuctionSystem.dto.CustomerDto;
+import com.miu.waafinalproject.SecureOnlineAuctionSystem.dto.*;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.enums.RolesEnum;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.exceptions.CustomerCanOnlyBidExceptions;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.exceptions.CustomerOrProductNotFoundException;
@@ -18,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -61,32 +61,53 @@ public class BidService implements IBidService{
         }
     }
 
-
+    public CustomerBidResultDto getHighestBidForProduct(Long productId) {
+        return bidRepo.findHighestBidForProduct(productId);
+    }
+    public Double getHighestBidForCustomerAndProduct(Long customerId, Long productId) {
+        Optional<Double> highestBid = bidRepo.findHighestBidByCustomerAndProduct(customerId, productId);
+        return highestBid.orElse(0.0); // Default value if there are no bids
+    }
     public Bid getHighestBidder(Long productId) {
-        Optional<Bid> highestBidOptional = bidRepo.findHighestBidByProductId(productId);
-        return highestBidOptional.orElse(null);
+        List<Bid> bids = bidRepo.findBidsByProductIdOrderByBidAmountDesc(productId);
+        if(!bids.isEmpty()) {
+            Bid highestBid = bids.get(0);
+            return highestBid;
+            // Now, 'highestBid' contains the highest bid for the specified product.
+        } else {
+            throw new CustomerOrProductNotFoundException("Customer or product not found");
+        }
     }
 
-    public void updateBid(BidAddUpdateDto bidUpdateDTO) {
-        Customer customer = customerService.getCustomerById(bidUpdateDTO.getCustomerId().intValue());
-        Product product = productRepository.findById(bidUpdateDTO.getProductId()).orElse(null);
+    public BidHistoryDto getBidHistoryForCustomer(Long customerId) {
+        // Find customer's bids by customer ID
+        List<Bid> customerBids = bidRepo.findByCustomerCustomerIDOrderByBidDate(customerId);
 
-        if (customer != null && product != null && customerService.isEligibleToBid(bidUpdateDTO)) {
-            Bid existingBid = bidRepo.findBidByCustomerAndProduct(customer, product);
+        Customer customer = customerRepo.findById(customerId).orElse(null);
 
-            if (existingBid != null && bidUpdateDTO.getNewBidAmount() > existingBid.getBidAmount()) {
-                existingBid.setBidAmount(bidUpdateDTO.getNewBidAmount());
-                bidRepo.save(existingBid);
-
-
-//                if (bidUpdateDTO.getNewBidAmount() > product.getHighestBid().getBidAmount()) {
-//                    product.setHighestBid(existingBid);
-//                    productRepository.save(product);
-//                }
-            }
-
+        if (customer == null) {
+            // Handle the case where the customer is not found
+            return null;
         }
 
+        BidHistoryDto bidHistory = new BidHistoryDto();
+        bidHistory.setCustomerId(customerId);
+        bidHistory.setUsername(customer.getUsers().getEmail());
+
+        List<BidProductHistoryDto> productHistoryList = new ArrayList<>();
+
+        for (Bid bid : customerBids) {
+            BidProductHistoryDto productHistory = new BidProductHistoryDto();
+            productHistory.setProductName(bid.getProduct().getName());
+            productHistory.setBidDate(bid.getBidDate());
+            productHistory.setAmount(bid.getBidAmount());
+
+            productHistoryList.add(productHistory);
+        }
+
+        bidHistory.setProductHistory(productHistoryList);
+
+        return bidHistory;
     }
 
     @Override

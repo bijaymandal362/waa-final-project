@@ -19,6 +19,8 @@ public class Users implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userID;
 
+    private String userName;
+
 //  email column should be unique and not null
 //  @NaturalId(mutable = true)
     @Column(nullable = false, length = 50, unique = true)
@@ -45,7 +47,7 @@ public class Users implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return userName;
     }
 
     @Override

@@ -38,12 +38,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody ProductDto product) {
+    public Product createProduct(@RequestBody ProductDto product) throws ProductNotFoundException {
         return productService.createProduct(product);
     }
 
     @PutMapping("/{productId}")
-    public Product updateProduct(@PathVariable Long productId, @RequestBody Product updatedProduct) throws ProductNotFoundException {
+    public Product updateProduct(@PathVariable Long productId, @RequestBody ProductDto updatedProduct) throws ProductNotFoundException {
         return productService.updateProduct(productId, updatedProduct);
     }
 
