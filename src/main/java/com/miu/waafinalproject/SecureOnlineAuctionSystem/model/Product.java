@@ -24,6 +24,7 @@ public class Product {
     private Date bidDueDate;
     private Date biddingPaymentDueDate;
     private boolean released;
+    private boolean sold;
     @ManyToOne
     private Seller seller;
     @OneToMany(mappedBy = "product")

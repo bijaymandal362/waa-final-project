@@ -16,6 +16,7 @@ public class Deposit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long depositID;
     private double depositAmount;
+    private boolean isRefunded;
     @ManyToOne
     private Customer customer;
     // Other deposit-related properties and methods
