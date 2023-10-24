@@ -1,12 +1,10 @@
 package com.miu.waafinalproject.SecureOnlineAuctionSystem.controller;
 
-import com.miu.waafinalproject.SecureOnlineAuctionSystem.dto.BidAddUpdateDto;
-import com.miu.waafinalproject.SecureOnlineAuctionSystem.dto.BidHistoryDto;
-import com.miu.waafinalproject.SecureOnlineAuctionSystem.dto.CustomerBidResultDto;
-import com.miu.waafinalproject.SecureOnlineAuctionSystem.dto.CustomerDto;
+import com.miu.waafinalproject.SecureOnlineAuctionSystem.dto.*;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.model.Bid;
 import com.miu.waafinalproject.SecureOnlineAuctionSystem.services.Bid.IBidService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +23,16 @@ public class BidController {
         Bid createdBid = bidService.createBid(bid);
         return ResponseEntity.ok(createdBid);
     }
+    @GetMapping("/by-product")
+    public ResponseEntity<List<BidDto>> findBidsByProductID(@RequestParam Long productId) {
+        List<BidDto> bids = bidService.findBidsByProductID(productId);
 
+        if (bids.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(bids, HttpStatus.OK);
+        }
+    }
     @GetMapping("/{productId}")
     public ResponseEntity<Bid> getHighestBidder(@PathVariable Long productId) {
         Bid highestBid = bidService.getHighestBidder(productId);
