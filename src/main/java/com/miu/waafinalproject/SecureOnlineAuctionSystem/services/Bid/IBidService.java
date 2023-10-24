@@ -12,8 +12,6 @@ import java.util.List;
 public interface IBidService {
     Bid createBid(BidAddUpdateDto bid);
     Bid getHighestBidder(Long productId);
-
-    CustomerDto closeBiddingForExpiredProducts();
     Double getHighestBidForCustomerAndProduct(Long customerId, Long productId);
     CustomerBidResultDto getHighestBidForProduct(Long productId);
 
