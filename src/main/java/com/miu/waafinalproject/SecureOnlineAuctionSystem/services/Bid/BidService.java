@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -112,5 +113,34 @@ public class BidService implements IBidService {
         return bidHistory;
     }
 
+    public List<BidDto> findBidsByProductID(Long productId) {
+        List<Bid> bids = bidRepo.findByProductProductID(productId);
 
+        return bids.stream()
+                .map(bid -> {
+                    BidDto bidDto = new BidDto();
+                    bidDto.setBidId(bid.getBidID());
+                    bidDto.setBidAmount(bid.getBidAmount());
+                    bidDto.setCustomerId(bid.getCustomer().getCustomerID());
+                    bidDto.setUsername(bid.getCustomer().getUsers().getEmail());
+
+                    // Create a ProductDto and set its properties here
+                    ProductDto productDto = new ProductDto();
+                    productDto.setProductID(bid.getProduct().getProductID());
+                    productDto.setName(bid.getProduct().getName());
+                    productDto.setStartingPrice(bid.getProduct().getStartingPrice());
+                    productDto.setDescription(bid.getProduct().getDescription());
+                    productDto.setStartingPrice(bid.getProduct().getStartingPrice());
+                    productDto.setDeposit(bid.getProduct().getDeposit());
+                    productDto.setBidDueDate(bid.getProduct().getBidDueDate());
+                    productDto.setBiddingPaymentDueDate(bid.getProduct().getBiddingPaymentDueDate());
+                    productDto.setReleased(bid.getProduct().isReleased());
+                    productDto.setSold(bid.getProduct().isSold());
+                    // Set other product properties in the ProductDto
+
+                    bidDto.setProduct(productDto);
+                    return bidDto;
+                })
+                .collect(Collectors.toList());
+    }
 }

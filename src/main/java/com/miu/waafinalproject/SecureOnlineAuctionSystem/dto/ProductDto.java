@@ -14,5 +14,6 @@ public class ProductDto {
     private Date bidDueDate;
     private Date biddingPaymentDueDate;
     private boolean released;
+    private boolean sold;
     private Long sellerID;
 }
