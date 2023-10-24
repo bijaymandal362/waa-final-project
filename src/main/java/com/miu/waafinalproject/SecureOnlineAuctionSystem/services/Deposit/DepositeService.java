@@ -36,7 +36,7 @@ public class DepositeService implements IDepositService{
             double depositAmount = deposite.getDepositAmount();
             double requiredDeposit = 0.10 * product.getStartingPrice();
 
-            if (product.getDeposit() == 0 && depositAmount >= requiredDeposit || product.getDeposit() != 0 && depositAmount >= product.getDeposit()) {
+            if (product.getDeposit() == 0 && depositAmount >= requiredDeposit || product.getDeposit() != 0 && depositAmount >= product.getDeposit() || depositAmount >= requiredDeposit) {
                 Deposit deposit = new Deposit();
                 deposit.setRefunded(false);
                 deposit.setDepositAmount(depositAmount);

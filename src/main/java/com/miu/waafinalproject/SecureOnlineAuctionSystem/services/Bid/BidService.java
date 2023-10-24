@@ -24,20 +24,20 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class BidService implements IBidService{
-  private final BidRepo bidRepo;
-  private final CustomerRepo customerRepo;
-  private final ProductRepo productRepository;
-  private final CustomerService customerService;
+public class BidService implements IBidService {
+    private final BidRepo bidRepo;
+    private final CustomerRepo customerRepo;
+    private final ProductRepo productRepository;
+    private final CustomerService customerService;
 
     public Bid createBid(BidAddUpdateDto dto) {
         // Fetch the customer and product from the provided IDs
         Customer customer = customerRepo.findById(dto.getCustomerId()).orElse(null);
         Product product = productRepository.findById(dto.getProductId()).orElse(null);
 
-        if(customerService.isEligibleToBid(dto)==false){
-            throw  new DepositBiddingLessThanStartingPriceException("Deposit amount is less than starting price");
-        }else {
+        if (customerService.isEligibleToBid(dto) == false) {
+            throw new DepositBiddingLessThanStartingPriceException("Deposit amount is less than starting price");
+        } else {
             if (customer != null && product != null) {
                 if (customer.getUsers().getRoles() == RolesEnum.CUSTOMER) {
                     // Check if the customer meets deposit requirements, etc., here
@@ -64,13 +64,15 @@ public class BidService implements IBidService{
     public CustomerBidResultDto getHighestBidForProduct(Long productId) {
         return bidRepo.findHighestBidForProduct(productId);
     }
+
     public Double getHighestBidForCustomerAndProduct(Long customerId, Long productId) {
         Optional<Double> highestBid = bidRepo.findHighestBidByCustomerAndProduct(customerId, productId);
         return highestBid.orElse(0.0); // Default value if there are no bids
     }
+
     public Bid getHighestBidder(Long productId) {
         List<Bid> bids = bidRepo.findBidsByProductIdOrderByBidAmountDesc(productId);
-        if(!bids.isEmpty()) {
+        if (!bids.isEmpty()) {
             Bid highestBid = bids.get(0);
             return highestBid;
             // Now, 'highestBid' contains the highest bid for the specified product.
@@ -110,27 +112,5 @@ public class BidService implements IBidService{
         return bidHistory;
     }
 
-    @Override
-    @Scheduled(cron = "0 0 0 * * ?") // Run daily at midnight
-    public CustomerDto closeBiddingForExpiredProducts() {
-        Date currentDate = new Date();
 
-        // Fetch products with bid due dates that have passed
-        List<Product> productsToClose = productRepository.findProductsByBidDueDateAndReleasedIsFalse(currentDate);
-        Customer highestBidder = null;
-        for (Product product : productsToClose) {
-            // Close the bidding for this product (e.g., set it as released)
-            product.setSold(true);
-            productRepository.save(product);
-
-            // Find the highest bidder for this product
-            Bid highestBid = bidRepo.findHighestBidForProduct(product);
-            if (highestBid != null) {
-                 highestBidder = highestBid.getCustomer();
-                // Now you have the highest bidder for this product
-                // Implement further logic as needed
-            }
-        }
-        return null;
-    }
 }

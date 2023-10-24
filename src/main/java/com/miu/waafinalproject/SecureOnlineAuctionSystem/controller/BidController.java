@@ -32,13 +32,6 @@ public class BidController {
         return ResponseEntity.ok(highestBid);
     }
 
-
-    @GetMapping("/close-bidding")
-    public ResponseEntity<CustomerDto> closeBiddingForExpiredProducts() {
-        CustomerDto winner = bidService.closeBiddingForExpiredProducts();
-        return ResponseEntity.ok(winner);
-    }
-
     @GetMapping("/latest-customer--bid/{customerId}/{productId}")
     public ResponseEntity<Double> getHighestBidForCustomerAndProduct(@PathVariable Long customerId, @PathVariable Long productId) {
         Double highestBid = bidService.getHighestBidForCustomerAndProduct(customerId, productId);

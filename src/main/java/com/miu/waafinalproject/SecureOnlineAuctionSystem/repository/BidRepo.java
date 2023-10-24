@@ -16,8 +16,10 @@ import java.util.Optional;
 public interface BidRepo extends JpaRepository<Bid, Long> {
     @Query("SELECT b FROM Bid b WHERE b.product.productID = :productId ORDER BY b.bidAmount DESC")
     List<Bid> findBidsByProductIdOrderByBidAmountDesc(@Param("productId") Long productId);
-
-
+    @Query("SELECT b FROM Bid b WHERE b.product.productID = :productId AND b.bidAmount = (SELECT MAX(b2.bidAmount) FROM Bid b2 WHERE b2.product.productID = :productId)")
+    Bid findHighestBidRecordForProduct(@Param("productId") Long productId);
+    @Query("SELECT MAX(b.bidAmount) FROM Bid b WHERE b.product.productID = :productId")
+    Double findHighestBidForProducts(@Param("productId") Long productId);
     @Query("SELECT b FROM Bid b WHERE b.customer = :customer AND b.product = :product")
     Bid findBidByCustomerAndProduct(@Param("customer") Customer customer, @Param("product") Product product);
 
